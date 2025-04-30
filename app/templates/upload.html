@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Dataset</title>
+</head>
+<body>
+    <h1>Upload Dataset for {{ project_name }}</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="dataset">Select Dataset:</label>
+        <input type="file" name="dataset" id="dataset" required><br>
+
+        <button type="submit">Upload Dataset</button>
+    </form>
+</body>
+</html>

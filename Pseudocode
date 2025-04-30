@@ -1,0 +1,31 @@
+START
+
+1. Initialize Flask app and project directory paths
+
+2. Define route: '/' (index)
+   IF request is POST:
+       Get project name, description, task type
+       Save uploaded zip file
+       Create project folders (data, models, results)
+       Extract zip to 'data/' folder
+       Organize folders: rename train2017 → train, val2017 → val
+       Ensure structure: images/train, labels/train (and val)
+       Create data.yaml file
+       Render success message
+   ELSE:
+       Render home page with form
+
+3. Define route: '/train' (model training)
+   Get training configuration (epochs, batch size, etc.)
+   Locate data.yaml
+   Call YOLO training function from train_model.py
+   Show training started/completed message
+
+4. Define route: '/predict' (inference)
+   Save uploaded image to data folder
+   Call YOLO predict function from predict.py
+   Return predicted image to frontend
+
+5. Run Flask app
+
+END

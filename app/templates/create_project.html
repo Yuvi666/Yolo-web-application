@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h2>Create New Project</h2>
+    <form method="POST">
+        <label>Project Name:</label>
+        <input type="text" name="project_name" required>
+        
+        <label>Description:</label>
+        <textarea name="description"></textarea>
+        
+        <label>Task Type:</label>
+        <select name="task_type" required>
+            <option value="detection">Detection</option>
+            <option value="classification">Classification</option>
+            <option value="segmentation">Segmentation</option>
+        </select>
+        
+        <button type="submit">Create</button>
+    </form>
+</div>
+</body>
+</html>

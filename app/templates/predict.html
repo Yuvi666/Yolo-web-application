@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Prediction</title>
+</head>
+<body>
+    <h1>Make Prediction for {{ project_name }}</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="model_path">Select Model:</label>
+        <input type="text" name="model_path" id="model_path" required><br>
+
+        <label for="image">Upload Image:</label>
+        <input type="file" name="image" id="image" required><br>
+
+        <label for="task_type">Task Type:</label>
+        <input type="text" name="task_type" id="task_type" value="{{ session['task_type'] }}" readonly><br>
+
+        <button type="submit">Make Prediction</button>
+    </form>
+</body>
+</html>

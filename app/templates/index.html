@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YOLO Project Pipeline</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>YOLO Model Training & Inference</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Step 1: Create & Upload -->
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <h2>Create Project & Upload Dataset</h2>
+
+        <label for="project_name">Project Name:</label>
+        <input type="text" name="project_name" id="project_name" required>
+
+        <label for="description">Description:</label>
+        <textarea name="description" id="description" rows="3" required></textarea>
+
+        <label for="task_type">Task Type:</label>
+        <select name="task_type" id="task_type">
+            <option value="Detection">Detection</option>
+            <option value="Classification">Classification</option>
+            <option value="Segmentation">Segmentation</option>
+        </select>
+
+        <label for="dataset">Upload Dataset (.zip):</label>
+        <input type="file" name="dataset" id="dataset" accept=".zip" required>
+
+        <button type="submit">Create & Upload</button>
+    </form>
+
+    {% if created %}
+    <!-- Step 2: Train -->
+    <form method="POST" action="/train">
+        <h2>Train Model</h2>
+        <input type="hidden" name="project" value="{{ project }}">
+        <input type="hidden" name="task" value="{{ task }}">
+
+        <label for="version">YOLO Version:</label>
+        <input type="text" name="version" id="version" value="yolov8n" required>
+
+        <label for="epochs">Epochs:</label>
+        <input type="number" name="epochs" id="epochs" value="10" required>
+
+        <label for="batch_size">Batch Size:</label>
+        <input type="number" name="batch_size" id="batch_size" value="8" required>
+
+        <label for="learning_rate">Learning Rate:</label>
+        <input type="text" name="learning_rate" id="learning_rate" value="0.001" required>
+
+        <label for="image_size">Image Size:</label>
+        <input type="number" name="image_size" id="image_size" value="640" required>
+
+        <button type="submit">Train Model</button>
+    </form>
+    {% endif %}
+
+    {% if trained %}
+    <!-- Step 3: Predict -->
+    <form method="POST" action="/predict" enctype="multipart/form-data">
+        <h2>Make Prediction</h2>
+        <input type="hidden" name="project" value="{{ project }}">
+        <input type="hidden" name="task" value="{{ task }}">
+
+        <label for="image">Select Image:</label>
+        <input type="file" name="image" id="image" accept="image/*" required>
+
+        <button type="submit">Predict</button>
+    </form>
+    {% endif %}
+
+    {% if predicted %}
+    <div class="result">
+        <h3>✅ Prediction Complete!</h3>
+        <p>Result saved in: <code>projects/{{ project }}/results</code></p>
+        {% if result_img %}
+        <h4>Output:</h4>
+        <img src="{{ url_for('static', filename=result_img) }}" width="400">
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
